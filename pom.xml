@@ -14,6 +14,8 @@
         <module>x-nut-safe</module>
         <module>x-nut-rest</module>
         <module>x-nut-360</module>
+        <module>x-nut-bootstrap</module>
+        <module>x-nut-ms</module>
     </modules>
 
 
