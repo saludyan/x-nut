@@ -1,0 +1,60 @@
+*.class
+test-output
+
+# Mobile Tools for Java (J2ME)
+.mtj.tmp/
+
+# Package Files #
+*.jar
+*.war
+*.ear
+
+# virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
+hs_err_pid*
+
+build
+target
+bin
+logs
+.project
+.classpath
+.settings
+data
+transaction-logs
+
+sw-pom.xml
+*.iml
+/*.iml
+.iml/
+test-config.xml
+.idea
+/.gradle/
+/gradle/
+*.bat
+/gradlew
+/transaction-logs
+super-doctor-api/module-gateway/src/main/resources/static/img/test/
+# OSX
+# Icon must end with two \r
+Icon
+
+
+._*
+.DS_Store
+.AppleDouble
+.LSOverride
+.DocumentRevisions-V100
+.fseventsd
+.Spotlight-V100
+.TemporaryItems
+.Trashes
+.VolumeIcon.icns
+.AppleDB
+.AppleDesktop
+Network Trash Folder
+Temporary Items
+.apdisk
+/.sonar/
+sonar-project.properties
+
+/temp
