@@ -1,0 +1,60 @@
+package ${package.Query};
+
+import ${package.Entity}.${entity};
+import com.querydsl.core.types.Path;
+import com.querydsl.core.types.PathMetadata;
+import com.querydsl.core.types.dsl.*;
+import javax.annotation.Generated;
+import java.util.Date;
+import static com.querydsl.core.types.PathMetadataFactory.forVariable;
+
+/**
+ * <p>
+ * $!{table.comment}
+ * </p>
+ *
+ * @author ${author}
+ */
+
+@Generated("com.querydsl.codegen.EntitySerializer")
+public class Q${entity} extends EntityPathBase<${entity}> {
+
+
+    private static final long serialVersionUID = 1L;
+
+    public static final Q${entity} ${entity.toLowerCase()} = new Q${entity}("${entity.toLowerCase()}");
+
+## ----------  BEGIN 字段循环遍历  ----------
+#foreach($field in ${table.fields})
+#if("$!field.comment" != "")
+    /**
+     * ${field.comment}
+     */
+#end
+
+
+#if(${field.propertyType} == "String")
+   public final StringPath ${field.propertyName} = createString("${field.propertyName}");
+    #elseif(${field.propertyType} == "Integer" || ${field.propertyType} == "Long" )
+    public final NumberPath<${field.propertyType}> ${field.propertyName} = createNumber("${field.propertyName}",${field.propertyType}.class);
+    #elseif(${field.propertyType} == "Date")
+    public final DatePath<${field.propertyType}> ${field.propertyName} = createDate("${field.propertyName}", ${field.propertyType}.class);
+#end
+
+
+#end
+
+
+    public Q${entity}(String variable) {
+        super(${entity}.class, forVariable(variable));
+    }
+
+    public Q${entity}(Path<? extends ${entity}> path) {
+        super(path.getType(), path.getMetadata());
+    }
+
+    public Q${entity}(PathMetadata metadata) {
+        super(${entity}.class, metadata);
+    }
+## ----------  END 字段循环遍历  ----------
+}

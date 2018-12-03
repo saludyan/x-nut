@@ -1,0 +1,70 @@
+package ${package.Entity};
+
+#if(${entityLombokModel})
+
+import lombok.Data;
+import lombok.experimental.Accessors;
+#end
+import javax.persistence.*;
+import java.util.Date;
+/**
+ * <p>
+ * $!{table.comment}
+ * </p>
+ *
+ * @author ${author}
+ */
+#if(${entityLombokModel})
+@Data
+#if(${superEntityClass})
+@EqualsAndHashCode(callSuper = true)
+#end
+@Accessors(chain = true)
+#end
+#if(${table.convert})
+@Entity
+@Table(name = "${table.name}")
+#end
+public class ${entity}  {
+
+
+    private static final long serialVersionUID = 1L;
+## ----------  BEGIN 字段循环遍历  ----------
+#foreach($field in ${table.fields})
+#if(${field.keyFlag})
+#set($keyPropertyName=${field.propertyName})
+#end
+#if("$!field.comment" != "")
+    /**
+     * ${field.comment}
+     */
+#end
+#if(${field.keyFlag})
+## 主键
+    @Id
+## 普通字段
+#elseif(${field.fill})
+## -----   存在字段填充设置   -----
+#if(${field.convert})
+    //@TableField(value = "${field.name}", fill = FieldFill.${field.fill})
+#else
+    //@TableField(fill = FieldFill.${field.fill})
+#end
+#elseif(${field.convert})
+    //@TableField("${field.name}")
+#end
+## 乐观锁注解
+#if(${versionFieldName}==${field.name})
+    @Version
+#end
+## 逻辑删除注解
+#if(${logicDeleteFieldName}==${field.name})
+    @TableLogic
+#end
+    @Column(name = "${field.name.toLowerCase()}")
+    private ${field.propertyType} ${field.propertyName};
+
+#end
+## ----------  END 字段循环遍历  ----------
+
+}

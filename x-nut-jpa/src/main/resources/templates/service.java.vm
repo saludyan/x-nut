@@ -1,0 +1,15 @@
+package ${package.Service};
+
+import com.locals.framework.common.service.AbstractService;
+import ${package.Entity}.${entity};
+
+/**
+ * <p>
+ * $!{table.comment} 服务
+ * </p>
+ *
+ * @author ${author}
+ */
+public interface ${table.serviceName} extends AbstractService<${entity}> {
+
+}

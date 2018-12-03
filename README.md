@@ -16,6 +16,12 @@ n.	螺母，螺帽; 坚果，坚果果仁;
 
 集合核心代码,和未定义的代码
 
+
+
+### x-nut-jpa
+
+`spring-data-jpa`快速引用
+
 ### x-nut-bootstrap
 
 引入`x-nut-bootstrap`快速创建一个`spring-boot`基础项目
@@ -46,3 +52,7 @@ n.	螺母，螺帽; 坚果，坚果果仁;
 ```
 coding...
 ```
+
+## `x-nut` example
+
+[戳我](https://github.com/saludyan/x-nut-example)
