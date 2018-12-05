@@ -12,6 +12,8 @@ public class TemplateConfig {
 
     private String criteria = ConstVal.TEMPLATE_CRITERIA_JAVA;
 
+    private String repository = ConstVal.TEMPLATE_REPOSITORY_JAVA;
+
     private String service = ConstVal.TEMPLATE_SERVICE;
 
     private String serviceImpl = ConstVal.TEMPLATE_SERVICEIMPL;
@@ -47,6 +49,15 @@ public class TemplateConfig {
 
     public String getCriteria() {
         return criteria;
+    }
+
+    public String getRepository() {
+        return repository;
+    }
+
+    public TemplateConfig setRepository(String repository) {
+        this.repository = repository;
+        return this;
     }
 
     public TemplateConfig setCriteria(String criteria) {

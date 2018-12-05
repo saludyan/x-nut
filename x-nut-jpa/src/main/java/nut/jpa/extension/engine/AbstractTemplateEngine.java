@@ -65,6 +65,7 @@ public abstract class AbstractTemplateEngine {
 //                // query.java
                 if (null != tableInfo.getQueryName()) {
                     String queryFile = String.format((pathInfo.get(ConstVal.QUERY_PATH) + File.separator + tableInfo.getQueryName() + this.suffixJavaOrKt()), entityName);
+                    // 添加到扩展包
                     if (this.isCreate(queryFile)) {
                         this.writer(objectMap, this.templateFilePath(template.getQuery()), queryFile);
                     }
@@ -76,6 +77,15 @@ public abstract class AbstractTemplateEngine {
                         this.writer(objectMap, this.templateFilePath(template.getCriteria()), criteriaFile);
                     }
                 }
+
+                // repository.java
+                if (null != tableInfo.getRepositoryName()) {
+                    String repositoryFile = String.format((pathInfo.get(ConstVal.REPOSITORY_PATH) + File.separator + tableInfo.getRepositoryName() + ConstVal.JAVA_SUFFIX), entityName);
+                    if (this.isCreate(repositoryFile)) {
+                        this.writer(objectMap, this.templateFilePath(template.getRepository()), repositoryFile);
+                    }
+                }
+
                 // IMpService.java
                 if (null != tableInfo.getServiceName()) {
                     String serviceFile = String.format((pathInfo.get(ConstVal.SERIVCE_PATH) + File.separator + tableInfo.getServiceName() + this.suffixJavaOrKt()), entityName);

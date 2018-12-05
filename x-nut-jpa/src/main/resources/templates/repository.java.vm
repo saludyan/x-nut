@@ -1,0 +1,15 @@
+package ${package.Service};
+
+import ${package.Entity}.${entity};
+import org.springframework.data.querydsl.QueryDslPredicateExecutor;
+import org.springframework.data.repository.PagingAndSortingRepository;
+/**
+ * <p>
+ * $!{table.comment} 服务
+ * </p>
+ *
+ * @author ${author}
+ */
+public interface ${table.repositoryName} extends PagingAndSortingRepository<${entity},Long>, QueryDslPredicateExecutor<${entity}> {
+
+}

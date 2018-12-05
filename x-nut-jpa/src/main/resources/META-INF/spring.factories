@@ -1,3 +1,4 @@
 # Auto Configure
 org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
-nut.jpa.config.JapConfiguration
+  nut.jpa.config.JapConfiguration,\
+  nut.jpa.config.AppCtxProvider

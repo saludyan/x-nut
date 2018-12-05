@@ -1,11 +1,10 @@
 package ${package.ServiceImpl};
 
 import ${package.Entity}.${entity};
-import ${package.Mapper}.${table.mapperName};
 import ${package.Service}.${table.serviceName};
-import ${superServiceImplClassPackage};
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import nut.jpa.service.impl.XNutServiceImpl;
 
 /**
  * <p>
@@ -14,8 +13,8 @@ import org.springframework.stereotype.Service;
  *
  * @author ${author}
  */
-@Service
 @Slf4j
-public class ${table.serviceImplName} implements ${table.serviceName} {
+@Service
+public class ${table.serviceImplName} extends XNutServiceImpl<${entity}> implements ${table.serviceName} {
 
 }

@@ -1,8 +1,7 @@
 package ${package.Service};
 
-import com.locals.framework.common.service.AbstractService;
 import ${package.Entity}.${entity};
-
+import nut.jpa.service.XNutService;
 /**
  * <p>
  * $!{table.comment} 服务
@@ -10,6 +9,6 @@ import ${package.Entity}.${entity};
  *
  * @author ${author}
  */
-public interface ${table.serviceName} extends AbstractService<${entity}> {
+public interface ${table.serviceName} extends XNutService<${entity}> {
 
 }

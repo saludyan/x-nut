@@ -59,6 +59,8 @@ public class GlobalConfig {
     private String serviceName;
     private String serviceImplName;
     private String controllerName;
+    private String repositoryName;
+
     /**
      * 指定生成的主键的ID类型
      */
@@ -160,6 +162,15 @@ public class GlobalConfig {
 
     public GlobalConfig setQueryName(String queryName) {
         this.queryName = queryName;
+        return this;
+    }
+
+    public String getRepositoryName() {
+        return repositoryName;
+    }
+
+    public GlobalConfig setRepositoryName(String repositoryName) {
+        this.repositoryName = repositoryName;
         return this;
     }
 

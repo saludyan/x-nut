@@ -31,6 +31,8 @@ public class PackageConfig {
 
     private String criteria = "criteria";
 
+    private String repository = "repository";
+
     /**
      * Service Impl包名
      */
@@ -105,6 +107,15 @@ public class PackageConfig {
 
     public PackageConfig setCriteria(String criteria) {
         this.criteria = criteria;
+        return this;
+    }
+
+    public String getRepository() {
+        return repository;
+    }
+
+    public PackageConfig setRepository(String repository) {
+        this.repository = repository;
         return this;
     }
 

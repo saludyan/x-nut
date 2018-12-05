@@ -1,17 +1,20 @@
 package nut.jpa.extension;
 
+import cn.hutool.core.io.resource.ClassPathResource;
+import cn.hutool.core.util.StrUtil;
 import lombok.Data;
+import nut.jpa.exceptions.XJpaException;
 import nut.jpa.extension.po.TableFill;
 import nut.jpa.extension.po.TableInfo;
 import nut.jpa.extension.rules.DbType;
 import nut.jpa.extension.rules.FieldFill;
 import nut.jpa.extension.rules.NamingStrategy;
+import org.springframework.core.io.support.PropertiesLoaderUtils;
+import org.yaml.snakeyaml.Yaml;
 
 import java.io.File;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
+import java.io.IOException;
+import java.util.*;
 
 /**
  * spring data jpa & queryDSL 生成器
@@ -34,17 +37,34 @@ public class XSuperGenerator {
         private String[] excludeTables;
     } 
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
         XSuperGeneratorObj obj = new XSuperGeneratorObj();
-        obj.setDataSourceUserName("yan");
-        obj.setDataSourcePassword("yan123");
-        obj.setDataSourceUrl("jdbc:mysql://120.79.100.24:3306/locals_yan");
-        obj.setTablePrefix(new String[]{"example_"});
+        obj.setDataSourceUserName("xxx");
+        obj.setDataSourcePassword("xxx");
+        obj.setDataSourceUrl("jdbc:mysql://localhost:3306/x_nut");
+        obj.setTablePrefix(new String[]{"exp_"});
         obj.setPackageName("nut.example");
+        obj.setExcludeTables(new String[]{"schema_version"});
         XSuperGenerator.generate(obj);
     }
 
     public static void generate(XSuperGeneratorObj obj) {
+
+        if(StrUtil.isEmpty(obj.getDataSourceUrl())){
+            Map<String,String> ymlMap = getYml();
+            String url = ymlMap.get("spring.datasource.url");
+            String username = ymlMap.get("spring.datasource.username");
+            String password = ymlMap.get("spring.datasource.password");
+            if(StrUtil.isBlank(url)){
+                throw new XJpaException("请在配置文件配置mysql,或者设置dataSourceUrl");
+            }
+
+            obj.setDataSourceUrl(url);
+            obj.setDataSourceUserName(username);
+            obj.setDataSourcePassword(password);
+        }
+
+
         DataSourceConfig dataSourceConfig = new DataSourceConfig()
                 .setDbType(DbType.MYSQL)
                 .setUrl(obj.getDataSourceUrl())
@@ -65,6 +85,7 @@ public class XSuperGenerator {
                         new TableFill("version", FieldFill.INSERT),
                         new TableFill("status", FieldFill.INSERT),
                         new TableFill("create_time", FieldFill.INSERT),
+                        new TableFill("update_time", FieldFill.INSERT),
                         new TableFill("creator", FieldFill.INSERT),
                         new TableFill("updator", FieldFill.INSERT_UPDATE)));
 
@@ -83,5 +104,42 @@ public class XSuperGenerator {
                 .setStrategy(strategyConfig)
                 .setPackageInfo(new PackageConfig().setParent(obj.getPackageName()))
                 .execute();
+    }
+
+    private static Map<String,String> getYml(){
+        ClassPathResource resource = new ClassPathResource("application.yml");
+        Yaml yaml = new Yaml();
+        Iterator<Object> result = yaml.loadAll(resource.getStream()).iterator();
+        Map<String,String> sourceMap = new HashMap<>();
+        while(result.hasNext()){
+            Map map=(Map)result.next();
+            iteratorYml( sourceMap,map,null);
+        }
+        return sourceMap;
+    }
+
+    public static void iteratorYml(Map<String,String> sourceMap,Map map,String key) {
+        Iterator iterator = map.entrySet().iterator();
+        while (iterator.hasNext()) {
+            Map.Entry entry = (Map.Entry) iterator.next();
+            Object key2 = entry.getKey();
+            Object value = entry.getValue();
+            if (value instanceof LinkedHashMap) {
+                if (key == null) {
+                    iteratorYml(sourceMap,(Map) value, key2.toString());
+                } else {
+                    iteratorYml(sourceMap,(Map) value, key + "." + key2.toString());
+                }
+            }
+            if (value instanceof String) {
+                if (key == null) {
+                    sourceMap.put(key2.toString(), value.toString());
+                }
+                if (key != null) {
+                    sourceMap.put(key + "." + key2.toString(), value.toString());
+                }
+            }
+        }
+
     }
 }

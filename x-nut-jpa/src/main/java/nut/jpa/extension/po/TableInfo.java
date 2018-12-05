@@ -20,6 +20,7 @@ public class TableInfo {
     private String entityName;
     private String queryName;
     private String criteriaName;
+    private String repositoryName;
     private String serviceName;
     private String serviceImplName;
     private String controllerName;
@@ -124,6 +125,15 @@ public class TableInfo {
 
     public String getControllerName() {
         return controllerName;
+    }
+
+
+    public String getRepositoryName() {
+        return repositoryName;
+    }
+
+    public void setRepositoryName(String repositoryName) {
+        this.repositoryName = repositoryName;
     }
 
     public void setControllerName(String controllerName) {

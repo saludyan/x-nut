@@ -209,6 +209,7 @@ public class ConfigBuilder {
         packageInfo.put(ConstVal.ENTITY, joinPackage(config.getParent(), config.getEntity()));
         packageInfo.put(ConstVal.QUERY, joinPackage(config.getParent(), config.getQuery()));
         packageInfo.put(ConstVal.CRITERIA, joinPackage(config.getParent(), config.getCriteria()));
+        packageInfo.put(ConstVal.REPOSITORY, joinPackage(config.getParent(), config.getRepository()));
         packageInfo.put(ConstVal.SERIVCE, joinPackage(config.getParent(), config.getService()));
         packageInfo.put(ConstVal.SERVICEIMPL, joinPackage(config.getParent(), config.getServiceImpl()));
         packageInfo.put(ConstVal.CONTROLLER, joinPackage(config.getParent(), config.getController()));
@@ -225,6 +226,10 @@ public class ConfigBuilder {
 
         if (DbStringUtils.isNotEmpty(template.getCriteria())) {
             pathInfo.put(ConstVal.CRITERIA_PATH, joinPath(outputDir, packageInfo.get(ConstVal.CRITERIA)));
+        }
+
+        if (DbStringUtils.isNotEmpty(template.getRepository())) {
+            pathInfo.put(ConstVal.REPOSITORY_PATH, joinPath(outputDir, packageInfo.get(ConstVal.REPOSITORY)));
         }
 
         if (DbStringUtils.isNotEmpty(template.getService())) {
@@ -310,9 +315,14 @@ public class ConfigBuilder {
                 tableInfo.setQueryName("Q"+tableInfo.getEntityName());
             }
             if (DbStringUtils.isNotEmpty(globalConfig.getCriteriaName())) {
-                tableInfo.setControllerName(String.format(globalConfig.getCriteriaName(), tableInfo.getEntityName()));
+                tableInfo.setCriteriaName(String.format(globalConfig.getCriteriaName(), tableInfo.getEntityName()));
             } else {
                 tableInfo.setCriteriaName(tableInfo.getEntityName() + ConstVal.CRITERIA);
+            }
+            if (DbStringUtils.isNotEmpty(globalConfig.getRepositoryName())) {
+                tableInfo.setRepositoryName(String.format(globalConfig.getRepositoryName(), tableInfo.getEntityName()));
+            } else {
+                tableInfo.setRepositoryName(tableInfo.getEntityName() + ConstVal.REPOSITORY);
             }
             if (DbStringUtils.isNotEmpty(globalConfig.getServiceName())) {
                 tableInfo.setServiceName(String.format(globalConfig.getServiceName(), tableInfo.getEntityName()));
