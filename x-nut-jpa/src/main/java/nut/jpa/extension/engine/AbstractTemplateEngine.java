@@ -197,6 +197,7 @@ public abstract class AbstractTemplateEngine {
             objectMap.put("controllerMappingHyphenStyle", config.getStrategyConfig().isControllerMappingHyphenStyle());
             objectMap.put("controllerMappingHyphen", DbStringUtils.camelToHyphen(tableInfo.getEntityPath()));
         }
+        objectMap.put("controllerMappingHyphen", DbStringUtils.camelToHyphen(tableInfo.getEntityPath()));
         objectMap.put("restControllerStyle", config.getStrategyConfig().isRestControllerStyle());
         objectMap.put("package", config.getPackageInfo());
         GlobalConfig globalConfig = config.getGlobalConfig();

@@ -28,7 +28,7 @@ public class ${table.controllerName} {
     /**
     * 条件搜索(分页)
     */
-    @GetMapping("/page/${table.entityPath}")
+    @GetMapping("/page/${controllerMappingHyphen}")
     public RestResponse<XPage<${entity}>> findPage(@ModelAttribute ${entity}Criteria criteria){
         if(criteria.getStatus() == null){
             criteria.setStatus(1);
@@ -39,7 +39,7 @@ public class ${table.controllerName} {
     /**
     * 条件搜索(单个)
     */
-    @GetMapping("/single/${table.entityPath}")
+    @GetMapping("/single/${controllerMappingHyphen}")
     public RestResponse<${entity}> getSingle(@ModelAttribute ${entity}Criteria criteria){
         if(criteria.getStatus() == null){
             criteria.setStatus(1);
@@ -50,7 +50,7 @@ public class ${table.controllerName} {
     /**
     * 条件搜索
     */
-    @GetMapping("/${table.entityPath}")
+    @GetMapping("/${controllerMappingHyphen}")
     public RestResponse<List<${entity}>> find(@ModelAttribute ${entity}Criteria criteria){
         if(criteria.getStatus() == null){
             criteria.setStatus(1);
@@ -61,7 +61,7 @@ public class ${table.controllerName} {
     /**
     * 根据ID获取
     */
-    @GetMapping("/${table.entityPath}/{id}")
+    @GetMapping("/${controllerMappingHyphen}/{id}")
     public RestResponse<${entity}> getById(@PathVariable Long id){
         return RestResponse.success(${serviceName}.get(id));
     }
@@ -69,7 +69,7 @@ public class ${table.controllerName} {
     /**
     * 新增
     */
-    @PostMapping("/${table.entityPath}")
+    @PostMapping("/${controllerMappingHyphen}")
     public RestResponse<${entity}> create(@RequestBody ${entity} ${entityName} ){
         return RestResponse.success(${serviceName}.save(${entityName}));
     }
@@ -78,7 +78,7 @@ public class ${table.controllerName} {
     /**
     * 更新
     */
-    @PutMapping("/${table.entityPath}")
+    @PutMapping("/${controllerMappingHyphen}")
     public RestResponse<${entity}> update(@RequestBody ${entity} ${entityName} ){
         return RestResponse.success(${serviceName}.save(${entityName}));
     }
@@ -86,7 +86,7 @@ public class ${table.controllerName} {
     /**
     * 删除
     */
-    @DeleteMapping("/${table.entityPath}/{id}")
+    @DeleteMapping("/${controllerMappingHyphen}/{id}")
     public RestResponse delete(@PathVariable Long id ){
         // 物理删除
         //${serviceName}.delete(id);

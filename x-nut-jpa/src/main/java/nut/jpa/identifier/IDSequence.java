@@ -1,7 +1,7 @@
 package nut.jpa.identifier;
 
 import cn.hutool.core.util.RandomUtil;
-import nut.jpa.config.AppCtxProvider;
+import nut.jpa.component.AppCtxProvider;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

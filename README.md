@@ -30,9 +30,6 @@ n.	螺母，螺帽; 坚果，坚果果仁;
 
 引入`x-nut-ms`快速创建一个`spring-cloud`微服务
 
-### x-nut-mybatis
-
-`mybatis-plus`封装
 
 ### x-nut-rest
 

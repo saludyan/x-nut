@@ -1,4 +1,4 @@
-package nut.jpa.config;
+package nut.jpa.component;
 
 import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;

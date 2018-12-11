@@ -5,15 +5,12 @@ import cn.hutool.core.util.StrUtil;
 import lombok.Data;
 import nut.jpa.exceptions.XJpaException;
 import nut.jpa.extension.po.TableFill;
-import nut.jpa.extension.po.TableInfo;
 import nut.jpa.extension.rules.DbType;
 import nut.jpa.extension.rules.FieldFill;
 import nut.jpa.extension.rules.NamingStrategy;
-import org.springframework.core.io.support.PropertiesLoaderUtils;
 import org.yaml.snakeyaml.Yaml;
 
 import java.io.File;
-import java.io.IOException;
 import java.util.*;
 
 /**
@@ -37,16 +34,7 @@ public class XSuperGenerator {
         private String[] excludeTables;
     } 
 
-    public static void main(String[] args) throws IOException {
-        XSuperGeneratorObj obj = new XSuperGeneratorObj();
-        obj.setDataSourceUserName("xxx");
-        obj.setDataSourcePassword("xxx");
-        obj.setDataSourceUrl("jdbc:mysql://localhost:3306/x_nut");
-        obj.setTablePrefix(new String[]{"exp_"});
-        obj.setPackageName("nut.example");
-        obj.setExcludeTables(new String[]{"schema_version"});
-        XSuperGenerator.generate(obj);
-    }
+
 
     public static void generate(XSuperGeneratorObj obj) {
 

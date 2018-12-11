@@ -56,7 +56,12 @@
             <groupId>com.x.nut</groupId>
             <artifactId>x-nut-tool</artifactId>
             <version>1.0.0</version>
-            <scope>provided</scope>
+            <!--<scope>provided</scope>-->
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-data-redis</artifactId>
         </dependency>
 
         <!--<dependency>-->

@@ -5,7 +5,7 @@ import cn.hutool.core.collection.IterUtil;
 import cn.hutool.core.util.ArrayUtil;
 import com.querydsl.core.types.OrderSpecifier;
 import com.querydsl.core.types.dsl.BooleanExpression;
-import nut.jpa.config.AppCtxProvider;
+import nut.jpa.component.AppCtxProvider;
 import nut.jpa.criteria.ICriteria;
 import nut.jpa.criteria.XCriteriaBuilder;
 import nut.jpa.criteria.XOrderBuilder;
