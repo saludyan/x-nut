@@ -19,6 +19,9 @@
         <java.version>1.8</java.version>
         <slf4j-log4j12.version>1.6.1</slf4j-log4j12.version>
         <velocity-engine-core.version>2.0</velocity-engine-core.version>
+        <!--<jasypt-spring-boot.version>2.1.0</jasypt-spring-boot.version>-->
+        <jasypt-spring-boot.version>1.14</jasypt-spring-boot.version>
+        <snakeyaml.version>1.19</snakeyaml.version>
     </properties>
 
 
@@ -83,8 +86,18 @@
         <dependency>
             <groupId>org.yaml</groupId>
             <artifactId>snakeyaml</artifactId>
-            <version>1.19</version>
+            <version>${snakeyaml.version}</version>
         </dependency>
+
+
+        <dependency>
+            <groupId>com.github.ulisesbocchio</groupId>
+            <artifactId>jasypt-spring-boot-starter</artifactId>
+            <version>${jasypt-spring-boot.version}</version>
+        </dependency>
+
+
+
     </dependencies>
 
 </project>

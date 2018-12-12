@@ -1,16 +1,25 @@
 package nut.jpa.extension;
 
+import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.io.resource.ClassPathResource;
+import cn.hutool.core.util.ArrayUtil;
 import cn.hutool.core.util.StrUtil;
 import lombok.Data;
+import lombok.experimental.Accessors;
+import nut.jpa.component.EncryptProvider;
 import nut.jpa.exceptions.XJpaException;
 import nut.jpa.extension.po.TableFill;
 import nut.jpa.extension.rules.DbType;
 import nut.jpa.extension.rules.FieldFill;
 import nut.jpa.extension.rules.NamingStrategy;
+import org.jasypt.encryption.StringEncryptor;
+import org.jasypt.encryption.pbe.PooledPBEStringEncryptor;
+import org.jasypt.encryption.pbe.config.SimpleStringPBEConfig;
+import org.springframework.core.env.Environment;
 import org.yaml.snakeyaml.Yaml;
 
 import java.io.File;
+import java.lang.management.ManagementFactory;
 import java.util.*;
 
 /**
@@ -22,21 +31,38 @@ import java.util.*;
 public class XSuperGenerator {
 
     @Data
-    public static class XSuperGeneratorObj{
+    @Accessors(chain = true)
+    public static class GeneratorConfig{
         private String outputDir="./target/generator".replace("/", File.separator);
         private String dataSourceUserName;
         private String dataSourcePassword;
         private String dataSourceUrl;
         private String packageName;
 
-        private String[] tablePrefix;
-        private String[] includeTables;
-        private String[] excludeTables;
+        private List<String> tablePrefix;
+        private List<String> includeTables;
+        private List<String> excludeTables;
+
+
+        public GeneratorConfig setIncludeTables(String...tables){
+            this.includeTables = CollUtil.newArrayList(tables);
+            return this;
+        }
+
+        public GeneratorConfig setExcludeTables(String...tables){
+            this.excludeTables = CollUtil.newArrayList(tables);
+            return this;
+        }
+
+        public GeneratorConfig setTablePrefix(String...freFies){
+            this.tablePrefix = CollUtil.newArrayList(freFies);
+            return this;
+        }
     } 
 
 
 
-    public static void generate(XSuperGeneratorObj obj) {
+    public static void generate(GeneratorConfig obj) {
 
         if(StrUtil.isEmpty(obj.getDataSourceUrl())){
             Map<String,String> ymlMap = getYml();
@@ -46,7 +72,17 @@ public class XSuperGenerator {
             if(StrUtil.isBlank(url)){
                 throw new XJpaException("请在配置文件配置mysql,或者设置dataSourceUrl");
             }
+            if(url.startsWith("ENC(")){
+                url = EncryptProvider.decrypt(url);
+            }
 
+            if(username.startsWith("ENC(")){
+                username = EncryptProvider.decrypt(username);
+            }
+
+            if(password.startsWith("ENC(")){
+                password = EncryptProvider.decrypt(password);
+            }
             obj.setDataSourceUrl(url);
             obj.setDataSourceUserName(username);
             obj.setDataSourcePassword(password);
@@ -64,10 +100,10 @@ public class XSuperGenerator {
                 .setCapitalMode(true)
                 .setEntityLombokModel(true)
                 .setDbColumnUnderline(true)
-                .setTablePrefix(obj.getTablePrefix())
+                .setTablePrefix(obj.getTablePrefix()!=null?ArrayUtil.toArray(obj.getTablePrefix(),String.class):null)
                 .setNaming(NamingStrategy.underline_to_camel)
-                .setInclude(obj.getIncludeTables())//修改替换成你需要的表名，多个表名传数组
-                .setExclude(obj.getExcludeTables())
+                .setInclude(obj.getIncludeTables()!=null?ArrayUtil.toArray(obj.getIncludeTables(),String.class):null)//修改替换成你需要的表名，多个表名传数组
+                .setExclude(obj.getExcludeTables()!=null?ArrayUtil.toArray(obj.getExcludeTables(),String.class):null)
                 .setVersionFieldName("version")//默认乐观锁字段
                 .setTableFillList(Arrays.asList(
                         new TableFill("version", FieldFill.INSERT),
@@ -130,4 +166,7 @@ public class XSuperGenerator {
         }
 
     }
+
+
+
 }
