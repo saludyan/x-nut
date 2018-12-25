@@ -13,7 +13,6 @@
     <description>快速开发工具包</description>
     <artifactId>x-nut-bootstrap</artifactId>
     <version>1.0.0</version>
-    <packaging>jar</packaging>
 
 
     <dependencies>
