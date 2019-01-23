@@ -1,0 +1,9 @@
+# Auto Configure
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+  nut.security.config.SecurityConfiguration,\
+  nut.security.common.XSuccessHandler,\
+  nut.security.common.XPasswordEncoder,\
+  nut.security.common.XFailureHandler,\
+  nut.security.common.jwt.JwtTokenUtil,\
+  nut.security.common.XAuthLoginController,\
+  nut.security.common.XAccessDeniedHandler

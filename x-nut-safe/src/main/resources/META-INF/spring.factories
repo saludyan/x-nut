@@ -3,4 +3,5 @@ org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
   nut.safe.config.AuthorizationServerConfiguration,\
   nut.safe.config.ResourceServerConfiguration,\
   nut.safe.config.SecurityConfiguration,\
-  nut.safe.component.XPasswordEncoder
+  nut.safe.component.XPasswordEncoder,\
+  nut.safe.config.InterceptorConfiguration

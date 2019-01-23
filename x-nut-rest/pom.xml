@@ -13,4 +13,24 @@
     <version>1.0.0</version>
 
 
+    <dependencies>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>com.x.nut</groupId>
+            <artifactId>x-nut-tool</artifactId>
+            <version>1.0.0</version>
+            <!--<scope>provided</scope>-->
+        </dependency>
+        <dependency>
+            <groupId>com.x.nut</groupId>
+            <artifactId>x-nut-360</artifactId>
+            <version>1.0.0</version>
+            <scope>provided</scope>
+        </dependency>
+    </dependencies>
+
 </project>

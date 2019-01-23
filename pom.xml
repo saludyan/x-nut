@@ -16,6 +16,7 @@
         <module>x-nut-bootstrap</module>
         <module>x-nut-ms</module>
         <module>x-nut-jpa</module>
+        <module>x-nut-security</module>
     </modules>
 
 

@@ -1,0 +1,5 @@
+# Auto Configure
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+  nut.rest.config.WebMvcConfiguration,\
+  nut.rest.XFriendlyExceptionHandler,\
+  nut.rest.XErrorsController
