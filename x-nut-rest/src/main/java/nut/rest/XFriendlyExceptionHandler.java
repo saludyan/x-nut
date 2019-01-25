@@ -21,6 +21,7 @@ public class XFriendlyExceptionHandler {
         /**
          * TODO 异常友好输出(不断补充)
          */
-        return RestResponse.failed("10001", ExceptionUtil.getMessage(e), JSONUtil.toJsonPrettyStr(e));
+        log.error(e.getMessage(),e);
+        return RestResponse.failed("10001", ExceptionUtil.getMessage(e));
     }
 }
