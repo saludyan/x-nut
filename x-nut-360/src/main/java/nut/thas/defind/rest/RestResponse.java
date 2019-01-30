@@ -1,12 +1,14 @@
 package nut.thas.defind.rest;
 
 import lombok.Data;
-import nut.thas.defind.exceptions.GlobalException;
+import lombok.experimental.Accessors;
+import nut.thas.exceptions.GlobalException;
 
 /**
  * Created by Super Yan on 2018/11/29.
  */
 @Data
+@Accessors(chain = true)
 public class RestResponse<T> {
 
     //是否请求成功
@@ -17,8 +19,6 @@ public class RestResponse<T> {
 
     //如果success = false,指出错误消息
     private String errorMsg;
-
-    private String errorDetail;
 
     // 错误堆栈
     private String errorStacks;
@@ -41,6 +41,7 @@ public class RestResponse<T> {
     public RestResponse(boolean result,String errorMsg,T t){
         this.success = result;
         this.errorMsg = errorMsg;
+        this.errorCode ="4001";
         this.data=t;
     }
 
@@ -51,11 +52,10 @@ public class RestResponse<T> {
         }
     }
 
-    public RestResponse(boolean success, String errorCode, String errorMsg, String errorDetail, String errorStacks, T data) {
+    public RestResponse(boolean success, String errorCode, String errorMsg, String errorStacks, T data) {
         this.success = success;
         this.errorCode = errorCode;
         this.errorMsg = errorMsg;
-        this.errorDetail = errorDetail;
         this.errorStacks = errorStacks;
         this.data = data;
     }
@@ -73,45 +73,36 @@ public class RestResponse<T> {
         return restResponse;
     }
 
-    /**
-     * 提供失败对象的静态方法，方便输出
-     * @param errorCode  错误码
-     * @param errorMsg   错误消息
-     * @return
-     */
+
     public static RestResponse failed(String errorCode,String errorMsg){
-        return failed(errorCode, errorMsg, errorMsg);
+        return new RestResponse()
+                .setErrorCode(errorCode)
+                .setErrorMsg(errorMsg)
+                .setSuccess(false)
+                ;
+    }
+
+    public static RestResponse failed(String errorCode,String errorMsg,String errorStacks){
+        return new RestResponse()
+                .setErrorCode(errorCode)
+                .setErrorMsg(errorMsg)
+                .setSuccess(false)
+                .setErrorStacks(errorStacks)
+                ;
     }
 
     public static RestResponse failed(String errorMsg){
-        RestResponse restResponse = RestResponse.failed("10000",errorMsg);
+        RestResponse restResponse = RestResponse.failed("4001",errorMsg);
         return restResponse;
     }
 
-    public static RestResponse failed(String errorCode,String errorMsg,String errorDetail){
-        RestResponse restResponse = new RestResponse();
-        restResponse.setSuccess(false);
-        restResponse.setErrorCode(errorCode);
-        restResponse.setErrorMsg(errorMsg);
-        restResponse.setErrorDetail(errorDetail);
-        return restResponse;
-    }
 
-    public static RestResponse failed(String errorCode,String errorMsg,String errorDetail,String errorStacks){
-        RestResponse restResponse = new RestResponse();
-        restResponse.setSuccess(false);
-        restResponse.setErrorCode(errorCode);
-        restResponse.setErrorMsg(errorMsg);
-        restResponse.setErrorDetail(errorDetail);
-        restResponse.setErrorStacks(errorStacks);
-        return restResponse;
-    }
+
 
     public static RestResponse failed(GlobalException enumExceptionCode){
         RestResponse restResponse = new RestResponse();
         restResponse.setSuccess(false);
         restResponse.setErrorMsg(enumExceptionCode.getEnglish());
-        restResponse.setErrorDetail(enumExceptionCode.getChinese());
         restResponse.setErrorCode(enumExceptionCode.getCode());
         return restResponse;
     }
@@ -120,8 +111,7 @@ public class RestResponse<T> {
     public static RestResponse failed(GlobalException enumExceptionCode, String customError){
         RestResponse restResponse = new RestResponse();
         restResponse.setSuccess(false);
-        restResponse.setErrorMsg(enumExceptionCode.getErrorMsg());
-        restResponse.setErrorDetail(customError);
+        restResponse.setErrorMsg(customError);
         restResponse.setErrorCode(enumExceptionCode.getCode());
         return restResponse;
     }

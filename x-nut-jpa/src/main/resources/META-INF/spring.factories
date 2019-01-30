@@ -3,4 +3,5 @@ org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
   nut.jpa.config.JapConfiguration,\
   nut.jpa.component.AppCtxProvider,\
   nut.jpa.component.RedisProvider,\
-  nut.jpa.model.XAuditorAware
+  nut.jpa.model.XAuditorAware,\
+  nut.jpa.component.SequenceProvider

@@ -1,4 +1,4 @@
-package nut.rest;
+package nut.rest.exception;
 
 import nut.thas.defind.rest.RestResponse;
 import org.springframework.beans.factory.annotation.Autowired;
