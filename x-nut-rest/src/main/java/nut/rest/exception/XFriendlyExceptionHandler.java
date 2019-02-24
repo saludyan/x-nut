@@ -4,10 +4,7 @@ import cn.hutool.core.exceptions.ExceptionUtil;
 import cn.hutool.json.JSONUtil;
 import com.mysql.jdbc.exceptions.jdbc4.MySQLIntegrityConstraintViolationException;
 import lombok.extern.slf4j.Slf4j;
-import nut.rest.exception.custom.CustomHttpRequestMethodNotSupportedException;
-import nut.rest.exception.custom.CustomIllegalArgumentException;
-import nut.rest.exception.custom.CustomMySqlException;
-import nut.rest.exception.custom.IException;
+import nut.rest.exception.custom.*;
 import nut.thas.defind.rest.RestResponse;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -30,6 +27,7 @@ public class XFriendlyExceptionHandler {
         filter.add(new CustomMySqlException());
         filter.add(new CustomHttpRequestMethodNotSupportedException());
         filter.add(new CustomIllegalArgumentException());
+        filter.add(new CustomBadCredentialsException());
     }
 
 

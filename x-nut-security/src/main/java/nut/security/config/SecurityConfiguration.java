@@ -63,11 +63,13 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     @Override
     public void configure(HttpSecurity http) throws Exception {
         http.formLogin()
-                .loginPage("/auth/login")
-                .loginProcessingUrl("/auth/**").permitAll()
+//                .loginPage("/auth/login")
+//                .loginProcessingUrl("/auth/**").permitAll()
                 .and()
                 .authorizeRequests()    // 定义哪些URL需要被保护、哪些不需要被保护
                 .antMatchers("/auth/login").permitAll()   // 设置所有人都可以访问的路径
+                .antMatchers("/register").permitAll()   // 设置所有人都可以访问的路径
+                .antMatchers("/register/**").permitAll()   // 设置所有人都可以访问的路径
                 .anyRequest()        // 任何请求,登录后可以访问
                 .authenticated()
                 .and()

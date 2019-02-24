@@ -20,11 +20,17 @@ public class XAuditorAware implements AuditorAware<String> {
         if (ctx.getAuthentication().getPrincipal() == null) {
             return null;
         }
-        UserDetails userDetails = (UserDetails) ctx.getAuthentication().getPrincipal();
-        if (userDetails!=null) {
-            return userDetails.getUsername();
-        } else {
+        if(ctx.getAuthentication().getPrincipal() instanceof UserDetails){
+            UserDetails userDetails = (UserDetails) ctx.getAuthentication().getPrincipal();
+            if (userDetails!=null) {
+                return userDetails.getUsername();
+            } else {
+                return null;
+            }
+        }else{
             return null;
         }
+
+
     }
 }
