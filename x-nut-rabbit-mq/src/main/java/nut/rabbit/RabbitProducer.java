@@ -1,10 +1,7 @@
 package nut.rabbit;
 
 import cn.hutool.core.util.StrUtil;
-import com.rabbitmq.client.AMQP;
-import com.rabbitmq.client.BuiltinExchangeType;
-import com.rabbitmq.client.Channel;
-import com.rabbitmq.client.Connection;
+import com.rabbitmq.client.*;
 import lombok.extern.slf4j.Slf4j;
 import nut.thas.defind.mq.XData;
 import nut.thas.defind.mq.XPrefixNameBuilder;
@@ -26,23 +23,20 @@ import java.util.Map;
  * @Version: 1.0
  */
 @Slf4j
-@Component
 public class RabbitProducer implements XProducer<Message> {
 
-    @Autowired
-    private Connection connection;
 
     @Override
     public boolean produce(Message message) {
         Channel channel = null;
-        Connection connection = this.connection;
+        Connection connection = ConnectionUtil.getConnection();
         try {
 
 
             channel = connection.createChannel();
             //声明交换器
             String exchange = message.getExchange();
-            String queueName = message.getQueueName();
+            String routingKey = message.getRoutingKey();
 
             String processExchangeName = XPrefixNameBuilder.build(exchange);
             XData xData = new XData(message.getData());
@@ -64,7 +58,7 @@ public class RabbitProducer implements XProducer<Message> {
                 // 队列的其他属性（构造参数）
                 // 配置项较多...这里省略...
                 Map<String, Object> arguments = null;
-                channel.queueDeclare(queueName, durable, exclusive, autoDelete, arguments);
+                channel.queueDeclare(routingKey, durable, exclusive, autoDelete, arguments);
             }
             // 交换器模式
             else {
@@ -73,7 +67,9 @@ public class RabbitProducer implements XProducer<Message> {
                 // 交换器名称
                 String exchangeName = processExchangeName;
                 // region
-                /*
+
+
+                /* fanout
                  * 交换器类型
                  * 任何发送到Fanout
                  * 任何发送到Fanout Exchange的消息都会被转发到与该Exchange绑定(Binding)的所有Queue上。
@@ -83,7 +79,7 @@ public class RabbitProducer implements XProducer<Message> {
                  * 3.这种模式需要提前将Exchange与Queue进行绑定，一个Exchange可以绑定多个Queue，一个Queue可以同多个Exchange进行绑定。
                  * 4.如果接受到消息的Exchange没有与任何Queue绑定，则消息会被抛弃。
 
-                 * fanout
+                 * direct
                  * 任何发送到Direct Exchange的消息都会被转发到RouteKey中指定的Queue。
                  *
                  * 1.一般情况可以使用rabbitMQ自带的Exchange：””(该Exchange的名字为空字符串，下文称其为default Exchange)。
@@ -91,7 +87,7 @@ public class RabbitProducer implements XProducer<Message> {
                  * 3.消息传递时需要一个“RouteKey”，可以简单的理解为要发送到的队列名字。
                  * 4.如果vhost中不存在RouteKey中指定的队列名，则该消息会被抛弃。
                  *
-                 * direct
+                 * topic
                  * 任何发送到Topic Exchange的消息都会被转发到所有关心RouteKey中指定话题的Queue上
                  *
                  * 1.这种模式较为复杂，简单来说，就是每个队列都有其关心的主题，所有的消息都带有一个“标题”(RouteKey)，Exchange会将消息转发到所有关注主题能与RouteKey模糊匹配的队列。
@@ -102,6 +98,9 @@ public class RabbitProducer implements XProducer<Message> {
                  */
                 // endregion
                 BuiltinExchangeType exchangeType = message.getExchangeType();
+                if(exchangeType == null){
+                    exchangeType = BuiltinExchangeType.DIRECT;
+                }
                 // 同上
                 boolean durable = true;
                 // 同上
@@ -123,7 +122,7 @@ public class RabbitProducer implements XProducer<Message> {
             // 0:不持久化
             // 1：持久化 这里指的是消息的持久化，配合channel(durable=true),queue(durable)可以实现，即使服务器宕机，消息仍然保留
             AMQP.BasicProperties props = new AMQP.BasicProperties.Builder().deliveryMode(1).build();
-            channel.basicPublish(processExchangeName, queueName, mandatory, props, XSerializer.serialize(xData));
+            channel.basicPublish(processExchangeName, routingKey, mandatory, props, XSerializer.serialize(xData));
             log.info("[RabbitProducer] Sent:{}", xData.toJson());
 
             return true;

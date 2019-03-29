@@ -22,7 +22,9 @@ import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 
 /**
- * Created by Super Yan on 2018/8/6.
+ *
+ * @author Super Yan
+ * @date 2018/8/6
  */
 @Slf4j
 public class XSubscriberHandler implements ApplicationListener<ContextRefreshedEvent>, ApplicationContextAware, DisposableBean {
@@ -43,8 +45,9 @@ public class XSubscriberHandler implements ApplicationListener<ContextRefreshedE
 
     @Override
     public void onApplicationEvent(ContextRefreshedEvent event) {
+        // 获取带有 @XSubscriber 的方法
         initSubscribers();
-        
+        // 处理订阅消息
         processSubscribers();
     }
 
@@ -53,19 +56,23 @@ public class XSubscriberHandler implements ApplicationListener<ContextRefreshedE
                 return;
             }
 
-            ExecutorService executorService = new ThreadPoolExecutor(0, Integer.MAX_VALUE,
-                    60L, TimeUnit.SECONDS,
-                    new SynchronousQueue<>(), r -> {
-                        Thread t =new Thread(r, "RabbitMQSubscriberThread");
-                        t.setUncaughtExceptionHandler((t1, e) ->
-                                log.error("RabbitMQSubscriberThread exception:",e)
-                        );
-                        return t;
-                    });
+            ExecutorService executorService = initTreadPool();
 
             for (Subscriber subscriber : subscribers) {
                     subscriber.subscribe(executorService);
             }
+    }
+
+    private ThreadPoolExecutor initTreadPool() {
+        return new ThreadPoolExecutor(0, Integer.MAX_VALUE,
+                60L, TimeUnit.SECONDS,
+                new SynchronousQueue<>(), r -> {
+                    Thread t =new Thread(r, "RabbitMQSubscriberThread");
+                    t.setUncaughtExceptionHandler((t1, e) ->
+                            log.error("RabbitMQSubscriberThread exception:",e)
+                    );
+                    return t;
+                });
     }
 
     private void initSubscribers() {
@@ -82,6 +89,10 @@ public class XSubscriberHandler implements ApplicationListener<ContextRefreshedE
                     matchMethod = matchMethod == null ? new ArrayList<>(1) : matchMethod;
                     matchMethod.add(method);
                 }
+            }
+
+            if(CollUtil.isEmpty(matchMethod)){
+                continue;
             }
 
             // 过滤掉父类的方法

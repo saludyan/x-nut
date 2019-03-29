@@ -5,9 +5,9 @@ package nut.thas.defind.mq;
  * @date 2019-03-27
  * @Version: 1.0
  */
-public interface XMessage<T> {
+public interface XMessage {
 
 
 
-    T getData();
+    Object getData();
 }

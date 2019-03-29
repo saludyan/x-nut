@@ -1,0 +1,8 @@
+x:
+  nut:
+    rabbitmq:
+      host: 127.0.0.1
+      port: 5672
+      username: yan
+      password: yan123
+      virtualHost: /

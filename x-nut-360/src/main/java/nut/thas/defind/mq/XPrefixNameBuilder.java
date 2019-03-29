@@ -21,6 +21,9 @@ public class XPrefixNameBuilder {
     }
 
     public static String build(String suffix){
+        if(StrUtil.isBlank(suffix)){
+            return "";
+        }
         return PREFIX + suffix;
     }
 }

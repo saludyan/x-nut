@@ -11,7 +11,7 @@ import java.lang.annotation.*;
 @Service
 public @interface XSubscriber {
 
-    String queue() default "";
+    String queue();
     String routingKey() default "";
     String exchange() default "";
     boolean autoAck() default false;

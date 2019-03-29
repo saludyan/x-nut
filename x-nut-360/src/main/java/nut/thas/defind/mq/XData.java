@@ -15,8 +15,6 @@ import nut.thas.exceptions.XException;
  */
 @Data
 @Accessors(chain = true)
-@AllArgsConstructor
-@NoArgsConstructor
 public class XData {
 
     public XData(Object object){

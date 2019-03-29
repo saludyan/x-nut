@@ -11,24 +11,25 @@ import org.springframework.context.annotation.Configuration;
  * @date 2019-03-27
  * @Version: 1.0
  */
-@Configuration
 public class RabbitMqConfiguration {
 
 
     @Value("${x.nut.rabbitmq.host:}")
     private String host;
-    @Value("${x.nut.rabbitmq.port}")
+    @Value("${x.nut.rabbitmq.port:}")
     private Integer port;
-    @Value("${x.nut.rabbit.virtualHost:}")
+    @Value("${x.nut.rabbitmq.virtualHost:}")
     private String virtualHost;
     @Value("${x.nut.rabbitmq.username:}")
     private String username;
     @Value("${x.nut.rabbitmq.password:}")
     private String password;
+    @Value("${x.nut.rabbitmq.connectionTimeout:30000}")
+    private Integer connectionTimeout;
 
 
     @Bean
-    public Connection getConnection() throws Exception {
+    public ConnectionFactory connectionFactory() throws Exception {
         // 检查配置
         this.checkConfig();
 
@@ -39,11 +40,14 @@ public class RabbitMqConfiguration {
         factory.setVirtualHost(virtualHost);
         factory.setUsername(username);
         factory.setPassword(password);
+        factory.setConnectionTimeout(connectionTimeout);
         // 网络故障自动恢复
         factory.setAutomaticRecoveryEnabled(true);
-        Connection connection = factory.newConnection();
-        return connection;
+        return factory;
     }
+
+
+
 
     private void checkConfig(){
         XAssert.notEmpty(host,"未检测到到配置:x.nut.rabbitmq.host");

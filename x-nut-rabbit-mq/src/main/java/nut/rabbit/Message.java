@@ -16,13 +16,13 @@ import nut.thas.defind.mq.XMessage;
 @Accessors(chain = true)
 @NoArgsConstructor
 @AllArgsConstructor
-public class Message<Data> implements XMessage<Data> {
+public class Message implements XMessage {
 
     private String exchange;
 
-    private String queueName;
+    private String routingKey;
 
     private BuiltinExchangeType exchangeType;
 
-    private Data data;
+    private Object data;
 }
