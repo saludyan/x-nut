@@ -14,6 +14,7 @@
         <module>x-nut-360</module>
         <module>x-nut-jpa</module>
         <module>x-nut-security</module>
+        <module>x-nut-rabbit-mq</module>
     </modules>
 
 

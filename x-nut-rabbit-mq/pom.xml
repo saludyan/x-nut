@@ -9,27 +9,32 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>x-nut-360</artifactId>
-    <version>1.0.0</version>
+    <artifactId>x-nut-rabbit-mq</artifactId>
 
 
     <dependencies>
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>com.rabbitmq</groupId>
+            <artifactId>amqp-client</artifactId>
+            <version>5.6.0</version>
+        </dependency>
+
         <dependency>
             <groupId>com.x.nut</groupId>
             <artifactId>x-nut-tool</artifactId>
             <version>1.0.0</version>
-            <scope>provided</scope>
         </dependency>
+
         <dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-context</artifactId>
-            <version>5.1.3.RELEASE</version>
-            <scope>provided</scope>
-        </dependency>
-        <dependency>
-            <groupId>com.google.code.gson</groupId>
-            <artifactId>gson</artifactId>
-            <version>2.8.5</version>
+            <groupId>com.x.nut</groupId>
+            <artifactId>x-nut-360</artifactId>
+            <version>1.0.0</version>
         </dependency>
     </dependencies>
 
