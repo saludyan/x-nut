@@ -24,11 +24,9 @@ public class SimpleExample {
 
     public void product(){
         for(int i=0;i<10;i++){
-
             producer.produce(new Message()
                     .setRoutingKey(ROUTING_KEY)
-                    .setData("["+(i+1)+"]hello")
-            );
+                    .setData("["+(i+1)+"]hello"));
         }
     }
 
