@@ -102,7 +102,7 @@ public class RabbitProducer implements XProducer<Message> {
                     exchangeType = BuiltinExchangeType.DIRECT;
                 }
                 // 同上
-                boolean durable = true;
+                boolean durable = false;
                 // 同上
                 boolean autoDelete = false;
                 // if the exchange is internal, i.e. can't be directly
@@ -122,7 +122,7 @@ public class RabbitProducer implements XProducer<Message> {
             // 0:不持久化
             // 1：持久化 这里指的是消息的持久化，配合channel(durable=true),queue(durable)可以实现，即使服务器宕机，消息仍然保留
             AMQP.BasicProperties props = new AMQP.BasicProperties.Builder().deliveryMode(1).build();
-            channel.basicPublish(processExchangeName, routingKey, mandatory, props, XSerializer.serialize(xData));
+            channel.basicPublish(processExchangeName, routingKey==null?"":routingKey, mandatory, props, XSerializer.serialize(xData));
             log.info("[RabbitProducer] Sent:{}", xData.toJson());
 
             return true;

@@ -7,7 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 /**
- * 简单模式,
+ * 简单模式(direct)
  * 1. [发布者]routingKey 和 [消费者] queue名字一样即可
  * 2. 无需exchange
  * @Author: Yan

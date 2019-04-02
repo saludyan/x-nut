@@ -45,26 +45,32 @@ public class Subscriber {
 
         for (Subscriber.SubscriberMethod subscriberMethod : subscriberMethods) {
             executorService.execute(()->{
+                XSubscriber xSubscriber = subscriberMethod.getSubscriber();
+                String queueName = xSubscriber.queue();
+                String exchange = xSubscriber.exchange();
+                String routingKey= xSubscriber.routingKey();
+
                 try{
                     Connection connection = ConnectionUtil.getConnection();
                     Channel channel = connection.createChannel();
                     Method method = subscriberMethod.getMethod();
-                    XSubscriber xSubscriber = subscriberMethod.getSubscriber();
-                    String queueName = xSubscriber.queue();
-                    String exchange = xSubscriber.exchange();
-                    String routingKey= xSubscriber.routingKey();
+
 
                     String processExchangeName = XPrefixNameBuilder.build(exchange);
                     boolean autoAck = xSubscriber.autoAck();
-                    boolean durable = true;
-                    boolean exclusive = false;
-                    boolean autoDelete = false;
                     Map<String, Object> arguments = null;
-                    channel.queueDeclare(queueName, durable, exclusive, autoDelete, arguments);
+                    channel.queueDeclare(queueName, false, false, false, arguments);
 
                     //同一时刻服务器只发送一条消息给消费端
                     channel.basicQos(1);
                     if(StrUtil.isNotBlank(exchange)){
+                        BuiltinExchangeType exchangeType;
+                        if(StrUtil.isNotBlank(routingKey)){
+                            exchangeType = BuiltinExchangeType.TOPIC;
+                        }else{
+                            exchangeType = BuiltinExchangeType.FANOUT;
+                        }
+                        channel.exchangeDeclare(processExchangeName, exchangeType);
                         channel.queueBind(queueName, processExchangeName, routingKey);
                     }
                     while(true){
@@ -95,7 +101,7 @@ public class Subscriber {
                     }
 
                 } catch (IOException e) {
-                    log.error("Consume error:",e);
+                    log.error("[exchange:{},queue:{},routingKey:{}]Consume error:",exchange,queueName,routingKey,e);
                 }
 
 

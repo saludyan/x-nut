@@ -1,6 +1,7 @@
 package nut.rabbit;
 
-import nut.rabbit.example.SimpleExample;
+import nut.rabbit.example.FanoutExample;
+import nut.rabbit.example.TopicExample;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,14 +18,14 @@ import java.util.concurrent.TimeUnit;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
-public class SimpleExampleTest {
+public class TopicExampleTest {
 
     @Autowired
-    private SimpleExample simpleExample;
+    private TopicExample topicExample;
 
     @Test
     public void product() throws InterruptedException {
-        simpleExample.product();
+        topicExample.product();
         TimeUnit.SECONDS.sleep(10);
     }
 }

@@ -1,5 +1,6 @@
 package nut.rabbit;
 
+import nut.rabbit.example.FanoutExample;
 import nut.rabbit.example.SimpleExample;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -17,14 +18,14 @@ import java.util.concurrent.TimeUnit;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
-public class SimpleExampleTest {
+public class FanoutExampleTest {
 
     @Autowired
-    private SimpleExample simpleExample;
+    private FanoutExample fanoutExample;
 
     @Test
     public void product() throws InterruptedException {
-        simpleExample.product();
+        fanoutExample.product();
         TimeUnit.SECONDS.sleep(10);
     }
 }
